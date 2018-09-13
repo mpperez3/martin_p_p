@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="./images/mario.ico" type="image/x-icon" rel="icon" />
+        <title>Martín Pérez Pérez</title>
+        <meta charset="UTF-8">
+        <meta name="author" content="Martín Pérez Pérez">
+        <meta name="reply-to" content="mpperez3@esei.uvigo.es">
+        <meta name="description"
+              content="This is the CV of Martín Pérez Pérez, computer engineer">
+        <meta name="keywords"
+              content="Marky,biofomics, Martin Perez Perez,Martin Perez Perez Computer engineer">
+        <meta name="resource-type" content="document">
+        <meta name="datecreated" content="mon, 11 november 2013 16:51:00 gmt+1">
+        <meta name="revisit-after" content="30 days">
+        <meta name="robots" content="all">
+        <link type="text/css" rel="stylesheet" href="style.css">
+        <link type="text/css" rel="stylesheet"
+              href="./Metro/css/metro-bootstrap.css">
+        <link type="text/css" rel="stylesheet"
+              href="./Metro/css/metro-bootstrap-responsive.css">
+        <script
+            src="./jquery.min.js"
+        type="text/javascript" charset="utf-8"></script>
+
+        <link type="text/css" rel="stylesheet"
+              href="./iatek-jquery-share/jquery.share.css">
+        <script src="./iatek-jquery-share/jquery.share.js"
+        type="text/javascript" charset="utf-8"></script>
+        <script>
+            !function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/
+                        .test(d.location) ? 'http' : 'https';
+                if (!d.getElementById(id)) {
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = p + '://platform.twitter.com/widgets.js';
+                    fjs.parentNode.insertBefore(js, fjs);
+                }
+            }(document, 'script', 'twitter-wjs');
+        </script>
+        <script>!function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+                if (!d.getElementById(id)) {
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = p + "://platform.twitter.com/widgets.js";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }
+            }(document, "script", "twitter-wjs");</script>
+        <script>
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id))
+                    return;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <script>
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js',
+                    'ga');
+
+            ga('create', 'UA-45631487-2', 'googledrive.com');
+            ga('send', 'pageview');
+        </script>
+        <script type="text/javascript">
+            if (!String.prototype.format) {
+                String.prototype.format = function () {
+                    var args = arguments;
+                    return this.replace(/{(\d+)}/g, function (match, number) {
+                        return typeof args[number] != 'undefined'
+                                ? args[number]
+                                : match
+                                ;
+                    });
+                };
+            }
+            $.ajax({
+                url: "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&term=Mart%C3%ADn+P%C3%A9rez+P%C3%A9rez%5BAuthor%5D+OR+(Perez-Perez+M%5BAuthor%5D+OR+Perez-Perez+M%5BInvestigator%5D)+AND+(Lourenco+A.%5BAuthor%5D+OR+Lourenco+A.%5BInvestigator%5D)",
+            }).done(function (response) {
+                if (response != undefined) {
+                    var ids = response.esearchresult.idlist.join(',')
+                    $.ajax({
+                        url: "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=" + ids + "&retmode=json",
+                    }).done(function (articles) {
+                        var template = $("#articleTemplate").html()
+                        var articlesHtml = "";
+                        for (var i  in articles.result) {
+
+                            if (i != "uids") {
+                                var article = articles.result[i];
+                                var doi = ""
+                                var authors = [];
+                                var database = article.source;
+                                var date = article.epubdate;
+                                for (var j  in article.authors)
+                                    authors.push(article.authors[j].name);
+                                for (var j  in article.articleids) {
+                                    if (article.articleids[j].idtype == "doi")
+                                    {
+                                        doi = article.articleids[j].value;
+
+                                    }
+                                }
+                                console.log(i)
+                                articlesHtml = template.format(article.title, authors.join(", "), doi, database + "; " + date, i) + articlesHtml;
+                            }
+                        }
+
+                        $("#articles").html(articlesHtml);
+                    });
+                }
+            });
+
+        </script>
+
+    </head>
+    <body class="metro" itemscope itemtype="http://schema.org/WebPage">
+        <div id="content" class="instaFade">
+            <div class="mainDetails">
+                <div class="image-container shadow myImage" id="myImage">
+                    <img src="imageProfile.jpg" alt="Martin_Perez" id="imageProfile"
+                         class="rounded polaroid" itemprop="image" />
+                    <div class="overlay-fluid">This is me!</div>
+                </div>
+                <div id="name">
+                    <h1 class="quickFade delayTwo">Martin Pérez Pérez</h1>
+                    <h2 class="quickFade delayThree">Computer engineer - Phd Student
+                        Student</h2>
+                </div>
+
+                <div id="contactDetails" class="quickFade delayFour ">
+                    <ul>
+                        <li>
+                            <h2>Contact me</h2>
+                        </li>
+                        <li><img src="email.png" alt="email" class="email" /> <a
+                                href="mailto:mpperez3@esei.uvigo.es" target="_blank">mpperez3@esei.uvigo.es</a>
+                        </li>
+                        <li>					
+                            <a href="https://twitter.com/Martin_P_P"
+                               class="twitter-follow-button" data-show-count="false">Follow
+                                @Martin_P_P</a>
+                        </li>
+                        <li>
+                            <div class="fb-follow"
+                                 data-href="https://www.facebook.com/100002903646736"
+                                 data-colorscheme="light" data-layout="button_count"
+                                 data-show-faces="true"></div>
+                        </li>
+                        <li>
+                            <h2>Share me</h2>
+                        </li>
+                        <li>
+                            <div id="shareDiv"></div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div id="mainArea" class="quickFade delayFive">
+                <section>
+                    <div>
+                        <div class="sectionTitle">
+                            <h1>Personal Profile</h1>
+                        </div>
+
+                        <div class="sectionContent" itemprop="description">
+                            <p>This is my personal website, here are some facts about me.
+                                Thanks for visiting my resume :) I hope modify it soon, with more
+                                professional achievements</p>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </section>
+
+        <section>
+            <div class="sectionTitle">
+                <h1>Work Experience</h1>
+            </div>
+
+            <div class="sectionContent">
+                <div itemscope itemtype="http://schema.org/WebPage">
+                    <h2 class="bold" itemprop="name">Markyt development</h2>
+                    <p class="subDetails">2012 - Present</p>
+                    What is Markyt? <a itemprop="url" href="http://www.markyt.org"
+                                       target="_blank">Markyt</a> <span itemprop="description">
+                        is able to annotate biomedical texts using different annotation
+                        classes. You only need a server with php technology and one
+                        database to annotate documents with a browser.</span>
+                    <p>
+                </div>
+                <div itemscope itemtype="http://schema.org/WebPage">
+                    <h2 class="bold" itemprop="name">BiofOmics development</h2>
+                    <p class="subDetails">2013 - 2014</p>
+                    <p>
+                        <a itemprop="url" href="http://biofomics.org" target="_blank">BiofOmics</a>
+                        <span itemprop="description"> is a novel platform for the
+                            systematic and large-scale compilation, processing and analysis
+                            of biofilm data from high-throughput experiments. </span>
+                    </p>
+                </div>
+                <div itemscope itemtype="http://schema.org/WebPage">
+                    <h2 class="bold" itemprop="name">Antimicrobial Combination
+                        development</h2>
+                    <p class="subDetails">2014 - Present</p>
+                    <p>
+                        <a itemprop="url"
+                           href="http://sing.ei.uvigo.es/antimicrobialCombination/"
+                           target="_blank">Antimicrobial Combination</a> <span
+                           itemprop="description"> web introduces the curation
+                            pipeline combining text mining, manual curation, and graph
+                            analysis that we have implemented to produce the first ever
+                            network reconstruction of AMP-drug combinations.</span>
+                    </p>
+                </div>
+                <div itemscope itemtype="http://schema.org/WebPage">
+                    <h2 class="bold" itemprop="name">SINGulator</h2>
+                    <p class="subDetails">2015 - Present</p>
+                    <p>
+                        <a itemprop="url"
+                           href="http://sing.ei.uvigo.es/singulator/"
+                           target="_blank">SINGulator</a> <span
+                           itemprop="description"> This work presents a molecular-scale agent-based model for the simulation of enzymatic reactions at experimentally measured concentrations. </span>
+                    </p>
+                </div>
+                <!--                <div itemscope itemtype="http://schema.org/WebPage">
+                                    <h2 class="bold" itemprop="name">PCQurum</h2>
+                                    <p class="subDetails">2016 - Present</p>
+                                    <p>
+                                        <a itemprop="url"
+                                           href="http://pcquorum.org/"
+                                           target="_blank">PCQurum</a> <span
+                                           itemprop="description">  Is a database that introduces a novel way of seeing antimicrobial interactions experimentally tested 
+                                            against organisms like Pseudomonas aeruginosa, Staphylococcus Aureus,Listeria monocytogenes,etc.  
+                                            Includes interactions among AMPs and other antimicrobial agents like drugs.</span>
+                                    </p>
+                                </div>-->
+                <div itemscope itemtype="http://schema.org/WebPage">
+                    <h2 class="bold" itemprop="name">BeCalm</h2>
+                    <p class="subDetails">2016 - Present</p>
+                    <p>
+                        <a itemprop="url"
+                           href="http://becalm.eu/"
+                           target="_blank">BeCalm</a> <span
+                           itemprop="description"> is a platform to visualise, predict and benchmark biomedical entity recognition between independent automatic prediction systems.</span>
+                    </p>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </section>
+
+        <section>
+            <div class="sectionTitle">
+                <h1>Key Skills</h1>
+            </div>
+
+            <div class="sectionContent">
+                <ul class="keySkills">
+                    <li>Java <img src="./images/java.png" alt="java"
+                                  class="SkillsIcons" />
+                    </li>
+                    <li>HTML <img src="./images/html5.png" alt="html"
+                                  class="SkillsIcons" />
+                    </li>
+                    <li>CSS <img src="./images/css3.png" alt="css3"
+                                 class="SkillsIcons" />
+
+                    </li>
+                    <li>Ajax <img src="./images/ajax.gif" alt="ajaxJavascript"
+                                  class="SkillsIcons" />
+
+                    </li>
+                    <li>jquery <img src="./images/jquery.png" alt="jquery"
+                                    class="SkillsIcons" />
+                    </li>
+                    <li>jquery UI <img src="./images/jqueryui.png" alt="jqueryUi"
+                                       class="SkillsIcons" />
+
+                    </li>
+                    <li>Knockout <img src="./images/k.png" alt="knockoutjs"
+                                      class="SkillsIcons" />
+
+                    </li>
+                    <li>Angular<img src="./images/angularjs.png" alt="Angular"
+                                 class="SkillsIcons" />
+
+                    </li>
+                    <li>Phython <img src="./images/python.png" alt="python"
+                                     class="SkillsIcons" />
+
+                    </li>
+                    <li>SQL <img src="./images/mysql.png" alt="MySql"
+                                 class="SkillsIcons" />
+
+                    </li>
+                    <li>PHP <img src="./images/php.png" alt="php"
+                                 class="SkillsIcons" />
+
+                    </li>
+					 <li>bootstrap <img src="./images/bootstrap.png" alt="bootstrap"
+                                 class="SkillsIcons" />
+
+                    </li>
+					
+					
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </section>
+
+
+
+        <section>
+            <div class="sectionTitle">
+                <h1>Education</h1>
+            </div>
+
+            <div class="sectionContent">
+                <div>
+                    <h2>C.P.I. Jose Garcia de Mende</h2>
+                    <p>
+                        School - <a
+                            href="http://www.edu.xunta.es/centros/cpijosegarciaourense/"
+                            target="_blank">Information</a>
+                    </p>
+                </div>
+                <div>
+                    <h2>IES Portovello</h2>
+                    <p>
+                        High school - <a href="http://www.cifpportovello.es/"
+                                         target="_blank">Information</a>
+                    </p>
+                </div>
+                <div>
+                    <h2>ESEI</h2>
+                    <p>
+                        University and master - <a
+                            href="http://www.esei.uvigo.es"
+                            target="_blank">Information</a>
+                    </p>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </section>
+        <section>
+            <div class="sectionTitle">
+                <h1>Publications</h1>
+            </div>
+
+            <div class="sectionContent" id="articles">
+                <h2 style="
+                    text-align: center;
+                    margin-bottom: 25px;
+                    margin-top: 50px;
+                    ">Loading...</h2>
+                <div id="cssload-contain">
+                    <div class="cssload-wrap" id="cssload-wrap1">
+                        <div class="cssload-ball" id="cssload-ball1"></div>
+                    </div>
+
+                    <div class="cssload-wrap" id="cssload-wrap2">
+                        <div class="cssload-ball" id="cssload-ball2"></div>
+                    </div>
+
+                    <div class="cssload-wrap" id="cssload-wrap3">
+                        <div class="cssload-ball" id="cssload-ball3"></div>
+                    </div>
+
+                    <div class="cssload-wrap" id="cssload-wrap4">
+                        <div class="cssload-ball" id="cssload-ball4"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </section>
+		                <section>
+                    <div class="sectionTitle">
+                        <h1>Last about me</h1>
+                    </div>
+                    <div class="sectionContent">
+                        <a class="twitter-timeline" href="https://twitter.com/Martin_P_P" data-widget-id="646775465743646720">Tweets por el @Martin_P_P.</a>
+                    </div>
+                    </article>
+
+            </div>
+            <div class="clear"></div>
+        </section>
+
+
+
+    </div>
+</div>
+<script id="articleTemplate" type="text/template">
+    <div>
+    <article>
+    <div>
+    <h4 style="display: inline">{0}</h4> <span class="aditionalInfo">{3}</span>
+    </div>
+    <h5 class="text-muted">{1}</h5> 
+    <div class="h6">
+    <span>DOI:<a href="//dx.doi.org/{2}" ref="aid_type=doi" target="_blank">{2}</a> </span>
+    <span style="margin-left: 5px" >PMID:<a href="http://www.ncbi.nlm.nih.gov/pubmed/{4}" class="referenceLink" target="_blank">{4}</a></span>
+    </div>
+    </article>
+    <hr>
+    </div>
+
+</script>
+<script type="text/javascript">
+
+    $("#content").fadeIn(3000);
+    $('#shareDiv').share(
+            {
+                networks: ['facebook', 'pinterest', 'googleplus',
+                    'twitter', 'linkedin', 'tumblr', 'in1',
+                    'stumbleupon', 'digg'],
+                urlToShare: window.location.href,
+            });
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
